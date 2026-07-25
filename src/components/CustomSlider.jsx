@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { OptimizedImg } from "./OptimizedImg";
 import { HorizontalSliderNavigation } from "./HorizontalSliderNavigation";
 import { VerticalSliderNavigation } from "./VerticalSliderNavigation";
-import { ZoomSlider } from "./ZoomSlider";
+import { SliderLightBoxPlugin } from "./SliderLightBoxPlugin";
 
 export function CustomSlider({
   defineTransitionDuration,
@@ -12,7 +12,7 @@ export function CustomSlider({
   setAxis = "X",
   isTouchConstraint = false,
   isLoop = true,
-  isZoom = false,
+  isLightBox = false,
   LightBoxBorderRadius = "",
 }) {
   //!though not needed but jsut as final touch implement debounce for autoplay later
@@ -28,6 +28,7 @@ export function CustomSlider({
     autoPlayId: 0,
     totalSlideCount: imgNameArr.length,
     totalSlideIndexCount: imgNameArr.length - 1,
+    isCarouselBtnActive: false,
     baseTranslate: 0,
     reset: {
       start: false,
@@ -46,6 +47,7 @@ export function CustomSlider({
     startPoint: 0,
     endPoint: 0,
   });
+
   const [slideIndexCount, setSlideIndexCount] = useState(0);
   const slideTrackEl = useRef(null);
   const slideEl = useRef(null);
@@ -53,6 +55,7 @@ export function CustomSlider({
   const isEnd =
     slideIndexCount === 0 ||
     slideIndexCount === slider.current.totalSlideIndexCount;
+  const lightBoxBtn = useRef(null);
 
   if (!isLoop && isAutoPlayEnabled) {
     throw new Error("Wrong prop Combination, To use autoplay set isLoop true");
@@ -155,38 +158,31 @@ export function CustomSlider({
     swipe.current.currentSwipe = 0; //not needed but to make debugging easier i am adding this.
   }
 
+  function snapBackTrack() {
+    moveSlideTrack({
+      isFast: false,
+      translate: Math.round(slider.current.baseTranslate),
+      duration: "400ms",
+    });
+
+    swipe.current.swipeTranslate = 0;
+    swipe.current.currentSwipe = 0;
+    if (isLightBox) disableLightBoxBtn(false);
+  }
+
   function validateSwipe() {
     touch.current.active = false;
     const { swipeTranslate } = swipe.current;
 
     if (!isLoop && swipe.current.isBeyondEnd) {
-      //--snap it back
-      moveSlideTrack({
-        isFast: false,
-        translate: Math.round(slider.current.baseTranslate),
-        duration: "400ms",
-      });
-
-      swipe.current.swipeTranslate = 0;
-      swipe.current.currentSwipe = 0;
+      snapBackTrack();
       return;
     }
 
-    if (swipeTranslate > 15) {
-      // --validate swipe and update
-      updateSlider("forward");
-    } else if (swipeTranslate < -15) {
-      updateSlider("backward");
-    } else {
-      //--snap it back
-      moveSlideTrack({
-        isFast: false,
-        translate: Math.round(slider.current.baseTranslate),
-        duration: "400ms",
-      });
-      swipe.current.swipeTranslate = 0;
-      swipe.current.currentSwipe = 0;
-    }
+    // --validate swipe and update
+    if (swipeTranslate > 15) updateSlider("forward");
+    else if (swipeTranslate < -15) updateSlider("backward");
+    else snapBackTrack();
   }
 
   function getBoundarySwipeData(limit) {
@@ -218,10 +214,12 @@ export function CustomSlider({
 
   function handlePointerEnd(e) {
     if (touch.current.active) validateSwipe();
+    else if (touch.current.focused) disableLightBoxBtn(false);
     // --
+
     if (touch.current.focused) {
       touch.current.focused = false;
-      if (isAutoPlayEnabled) startAutoPlay(); //-- this is not run in non-loop case
+      if (isAutoPlayEnabled) startAutoPlay(); //-- this will not run in non-loop case
     }
   }
 
@@ -246,6 +244,68 @@ export function CustomSlider({
     style.transform = `translate${axis}(calc(${-translate}% ${loopOffset}))`;
   }
 
+  function disableLightBoxBtn(value) {
+    if (
+      lightBoxBtn.current.disabled === value ||
+      slider.current.isCarouselBtnActive ||
+      lightBoxBtn.current.dataset.lightBoxOpen === "true"
+    ) {
+      return;
+    }
+    lightBoxBtn.current.disabled = value;
+  }
+
+  function onPointerMoveHandler(e) {
+    if (!touch.current.focused) return;
+    // --
+    touch.current.endPoint = e[`client${axis}`];
+    const { startPoint, endPoint, active } = touch.current;
+    const { trackLength, baseTranslate } = slider.current;
+    // --
+    const delta = startPoint - endPoint;
+    const nextSwipeTranslate = (delta / trackLength) * 100;
+    swipe.current.currentSwipe = nextSwipeTranslate;
+    //-- to show quick snap-back movement, for non-loop mode over boundary swipe
+    if (!isLoop && isEnd) {
+      const { isOverSwipe, isHitLimit } = getBoundarySwipeData(30);
+      swipe.current.isBeyondEnd = isOverSwipe;
+      //--
+      if (isOverSwipe && isHitLimit) return;
+    }
+    // --
+    moveSlideTrack({
+      isFast: true,
+      translate: baseTranslate + nextSwipeTranslate,
+    });
+    swipe.current.swipeTranslate = nextSwipeTranslate;
+    // --only run the code if it is false
+    if (!active) touch.current.active = true;
+  }
+
+  function onPointerDownHandler(e) {
+    //return if rest or transition is active
+    const { isTransitioning, reset } = slider.current;
+    if (isTransitioning || reset.start) return;
+    //--
+    if (isAutoPlayEnabled) stopAutoPlay();
+    //--gather touch details
+    touch.current.focused = true;
+    touch.current.startPoint = e[`client${axis}`];
+
+    //release pointer capturing when there is one
+    if (isTouchConstraint) {
+      const isCapture = e.target.hasPointerCapture(e.pointerId);
+      if (isCapture) e.target.releasePointerCapture(e.pointerId);
+    }
+    //cache slider track style ref
+
+    //define the right track length
+    const { clientWidth, clientHeight } = e.currentTarget;
+    slider.current.trackLength = isAxisX ? clientWidth : clientHeight;
+    //disable lightbox btn
+    if (isLightBox) disableLightBoxBtn(true);
+  }
+
   return (
     <div
       style={{ "--slider-radius": LightBoxBorderRadius }}
@@ -254,63 +314,18 @@ export function CustomSlider({
     >
       <div
         ref={slideEl}
-        onPointerDown={(e) => {
-          //return if rest or transition is active
-          const { isTransitioning, reset } = slider.current;
-          if (isTransitioning || reset.start) return;
-          //--
-          if (isAutoPlayEnabled) stopAutoPlay();
-          //--gather touch details
-          touch.current.focused = true;
-          touch.current.startPoint = e[`client${axis}`];
-
-          //release pointer capturing when there is one
-          if (isTouchConstraint) {
-            const isCapture = e.target.hasPointerCapture(e.pointerId);
-            if (isCapture) e.target.releasePointerCapture(e.pointerId);
-          }
-
-          //cache sliderTrack style
-          //slider.current.slideTrackStyle = slideTrackEl.current.style;
-
-          //define the right track length
-          const { clientWidth, clientHeight } = e.currentTarget;
-          slider.current.trackLength = isAxisX ? clientWidth : clientHeight;
-        }}
-        onPointerMove={(e) => {
-          if (touch.current.focused) {
-            // --
-            touch.current.endPoint = e[`client${axis}`];
-            const { startPoint, endPoint, active } = touch.current;
-            const { trackLength, baseTranslate } = slider.current;
-            // --
-            const delta = startPoint - endPoint;
-            const nextSwipeTranslate = (delta / trackLength) * 100;
-            swipe.current.currentSwipe = nextSwipeTranslate;
-            // --
-            if (!isLoop && isEnd) {
-              //-- to show quick snap-back on movement, for non-loop mode over boundary swipe
-              const { isOverSwipe, isHitLimit } = getBoundarySwipeData(30);
-              swipe.current.isBeyondEnd = isOverSwipe;
-              //--
-              if (isOverSwipe && isHitLimit) return;
-            }
-            // --
-            moveSlideTrack({
-              isFast: true,
-              translate: baseTranslate + nextSwipeTranslate,
-            });
-            swipe.current.swipeTranslate = nextSwipeTranslate;
-            // --
-            if (!active) touch.current.active = true;
-          }
-        }}
+        onPointerDown={onPointerDownHandler}
+        onPointerMove={onPointerMoveHandler}
         onPointerUp={handlePointerEnd}
         onPointerLeave={handlePointerEnd}
-        className={`relative size-full cursor-grab ${isAxisX ? "touch-pan-y" : "touch-pan-x"} bg-black/70 select-none active:cursor-grabbing`}
+        className={`relative size-full cursor-grab ${isAxisX ? "touch-pan-y" : "touch-pan-x"} select-none active:cursor-grabbing`}
       >
-        {isZoom && (
-          <ZoomSlider slideEl={slideEl} slideContainerEl={slideContainerEl} />
+        {isLightBox && (
+          <SliderLightBoxPlugin
+            ref={lightBoxBtn}
+            slideContainerEl={slideContainerEl}
+            slideEl={slideEl}
+          />
         )}
         <div className="absolute inset-0 overflow-clip">
           <div
@@ -319,6 +334,7 @@ export function CustomSlider({
             onTransitionEnd={() => {
               slider.current.isTransitioning = false;
               if (slider.current.reset.start) resetSlider();
+              if (isLightBox) disableLightBoxBtn(false);
             }}
             style={{
               transform: isLoop ? `translate${axis}(-100%)` : undefined,
@@ -329,9 +345,9 @@ export function CustomSlider({
           >
             {isLoop && (
               <OptimizedImg
+                data-clone="last"
                 imgName={imgNameArr[imgNameArr.length - 1]}
                 isDraggable={false}
-                data-clone="last"
               />
             )}
             {imgNameArr.map((imgName, i) => (
@@ -344,9 +360,9 @@ export function CustomSlider({
             ))}
             {isLoop && (
               <OptimizedImg
+                data-clone="first"
                 imgName={imgNameArr[0]}
                 isDraggable={false}
-                data-clone="first"
               />
             )}
           </div>
@@ -360,6 +376,8 @@ export function CustomSlider({
               slideIndexCount={slideIndexCount}
               isAutoPlayEnabled={isAutoPlayEnabled}
               updateSlider={updateSlider}
+              isLightBox={isLightBox}
+              disableLightBoxBtn={disableLightBoxBtn}
             />
           ) : (
             <VerticalSliderNavigation
