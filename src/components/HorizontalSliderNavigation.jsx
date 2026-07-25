@@ -8,6 +8,8 @@ export function HorizontalSliderNavigation({
   slideIndexCount,
   isAutoPlayEnabled,
   updateSlider,
+  isLightBox,
+  disableLightBoxBtn,
 }) {
   function OnClickHandler(action) {
     return () => {
@@ -27,6 +29,8 @@ export function HorizontalSliderNavigation({
           isAutoPlayEnabled={isAutoPlayEnabled}
           onClick={OnClickHandler("backward")}
           pointingDirection="left"
+          isLightBox={isLightBox}
+          disableLightBoxBtn={disableLightBoxBtn}
         />
         <CarouselBtn
           slider={slider}
@@ -37,6 +41,8 @@ export function HorizontalSliderNavigation({
           isAutoPlayEnabled={isAutoPlayEnabled}
           onClick={OnClickHandler("forward")}
           pointingDirection="right"
+          isLightBox={isLightBox}
+          disableLightBoxBtn={disableLightBoxBtn}
         />
       </div>
       <div className="mx-auto text-center *:inline-block *:rounded-full *:bg-black/70 *:p-1 *:not-last:mr-0.5 max-md:self-end">

@@ -27,7 +27,7 @@ export function BrandWhyChooseTextBox({ isAriaHidden, title, info }) {
           setAxis="Y"
           isTouchConstraint={true}
           isLoop={false}
-          isZoom={true}
+          isLightBox={true}
           LightBoxBorderRadius="4px"
         />
       </div>

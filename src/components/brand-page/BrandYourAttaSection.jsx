@@ -88,6 +88,8 @@ export function BrandYourAttaSection() {
             ]}
             isAutoPlayEnabled={true}
             setAxis="X"
+            isLightBox={true}
+            LightBoxBorderRadius="10px"
           />
         </div>
       </div>
