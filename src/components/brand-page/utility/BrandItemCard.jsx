@@ -6,7 +6,7 @@ export function BrandItemCard({ extraClassName = "", title, rate }) {
   //! i want whole card to have a shiny effect when user hover i can enahance the premimum feel.
   return (
     <div
-      className={`bg-warm-cream relative w-49.5 rounded-md border border-[#F5E0C1] p-3.5 text-center shadow-[0_6px_14px_#00000021] max-md:mx-auto ${extraClassName}`}
+      className={`bg-warm-cream relative w-49.5 rounded-md border border-[#F5E0C1] p-3.5 text-center shadow-[0_6px_14px_#00000021] ${extraClassName}`}
     >
       <span className="bg-golden-amber absolute top-0 left-1.5 inline-block rounded-2xl px-3 py-px">
         <SpriteIcon className="size-11.5" iconName="freshAndPure" />
