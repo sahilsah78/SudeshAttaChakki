@@ -5,6 +5,7 @@ import { VerticalSliderNavigation } from "./VerticalSliderNavigation";
 import { SliderLightBoxPlugin } from "./SliderLightBoxPlugin";
 
 export function CustomSlider({
+  children = null,
   defineTransitionDuration,
   autoPlayDuration,
   imgNameArr,
@@ -12,13 +13,15 @@ export function CustomSlider({
   setAxis = "X",
   isTouchConstraint = false,
   isLoop = true,
+  isCrouselBtnHidden = false,
   isLightBox = false,
   LightBoxBorderRadius = "",
 }) {
   //!though not needed but jsut as final touch implement debounce for autoplay later
   //!later do a skeleton effect for the slider.and write a logic to mount it later.
   //! and media query to turn slider vertical and horizontal.
-
+  // isAxisAutomatic = false, think about wheather you want to add this feature or not.
+  //later work on passing desired crousel options, then we will ditch the horizontal and vertical naviagation and shift to micro components
   const axis = setAxis.toUpperCase();
   const isAxisX = axis === "X" ? true : false;
 
@@ -26,8 +29,8 @@ export function CustomSlider({
     trackLength: 0,
     isTransitioning: false,
     autoPlayId: 0,
-    totalSlideCount: imgNameArr.length,
-    totalSlideIndexCount: imgNameArr.length - 1,
+    totalSlideCount: children?.length || imgNameArr.length,
+    totalSlideIndexCount: children?.length - 1 || imgNameArr.length - 1,
     isCarouselBtnActive: false,
     baseTranslate: 0,
     reset: {
@@ -343,27 +346,33 @@ export function CustomSlider({
               isAxisX ? "" : "flex-col"
             }`}
           >
-            {isLoop && (
-              <OptimizedImg
-                data-clone="last"
-                imgName={imgNameArr[imgNameArr.length - 1]}
-                isDraggable={false}
-              />
-            )}
-            {imgNameArr.map((imgName, i) => (
-              <OptimizedImg
-                key={i}
-                imgName={imgName}
-                isDraggable={false}
-                isLoadFast={i <= 2}
-              />
-            ))}
-            {isLoop && (
-              <OptimizedImg
-                data-clone="first"
-                imgName={imgNameArr[0]}
-                isDraggable={false}
-              />
+            {/* if children then chidren else the standard way */}
+            {children || (
+              <>
+                {isLoop && (
+                  <OptimizedImg
+                    data-clone="last"
+                    imgName={imgNameArr[imgNameArr.length - 1]}
+                    isDraggable={false}
+                  />
+                )}
+
+                {imgNameArr.map((imgName, i) => (
+                  <OptimizedImg
+                    key={i}
+                    imgName={imgName}
+                    isDraggable={false}
+                    isLoadFast={i <= 2}
+                  />
+                ))}
+                {isLoop && (
+                  <OptimizedImg
+                    data-clone="first"
+                    imgName={imgNameArr[0]}
+                    isDraggable={false}
+                  />
+                )}
+              </>
             )}
           </div>
 
@@ -376,6 +385,7 @@ export function CustomSlider({
               slideIndexCount={slideIndexCount}
               isAutoPlayEnabled={isAutoPlayEnabled}
               updateSlider={updateSlider}
+              isCrouselBtnHidden={isCrouselBtnHidden}
               isLightBox={isLightBox}
               disableLightBoxBtn={disableLightBoxBtn}
             />

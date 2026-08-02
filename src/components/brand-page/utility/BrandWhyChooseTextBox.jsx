@@ -1,7 +1,10 @@
 import { CustomSlider } from "../../CustomSlider";
+import { useMediaQuery } from "../../Hooks/useMediaQuery";
 
 export function BrandWhyChooseTextBox({ isAriaHidden, title, info }) {
   // !text should be little big in large screens take care of it later.
+  const isTablet = useMediaQuery("(min-width: 955px)");
+
   return (
     <div
       aria-hidden={isAriaHidden}
@@ -24,9 +27,10 @@ export function BrandWhyChooseTextBox({ isAriaHidden, title, info }) {
             "heroImg-2",
             "heroImg-3",
           ]}
-          setAxis="Y"
+          setAxis={isTablet ? "X" : "Y"}
           isTouchConstraint={true}
           isLoop={false}
+          isCrouselBtnHidden={true}
           isLightBox={true}
           LightBoxBorderRadius="4px"
         />
