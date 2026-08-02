@@ -8,6 +8,7 @@ export function HorizontalSliderNavigation({
   slideIndexCount,
   isAutoPlayEnabled,
   updateSlider,
+  isCrouselBtnHidden,
   isLightBox,
   disableLightBoxBtn,
 }) {
@@ -19,32 +20,36 @@ export function HorizontalSliderNavigation({
   }
   return (
     <div className="absolute inset-0 flex md:flex-col">
-      <div className="hidden flex-1 px-2 md:flex md:items-center md:justify-between">
-        <CarouselBtn
-          slider={slider}
-          startAutoPlay={startAutoPlay}
-          stopAutoPlay={stopAutoPlay}
-          isLoop={isLoop}
-          slideIndexCount={slideIndexCount}
-          isAutoPlayEnabled={isAutoPlayEnabled}
-          onClick={OnClickHandler("backward")}
-          pointingDirection="left"
-          isLightBox={isLightBox}
-          disableLightBoxBtn={disableLightBoxBtn}
-        />
-        <CarouselBtn
-          slider={slider}
-          startAutoPlay={startAutoPlay}
-          stopAutoPlay={stopAutoPlay}
-          isLoop={isLoop}
-          slideIndexCount={slideIndexCount}
-          isAutoPlayEnabled={isAutoPlayEnabled}
-          onClick={OnClickHandler("forward")}
-          pointingDirection="right"
-          isLightBox={isLightBox}
-          disableLightBoxBtn={disableLightBoxBtn}
-        />
-      </div>
+      {isCrouselBtnHidden ? (
+        <div className="flex-1"></div>
+      ) : (
+        <div className="hidden md:flex-1 md:px-2 md:flex md:items-center md:justify-between">
+          <CarouselBtn
+            slider={slider}
+            startAutoPlay={startAutoPlay}
+            stopAutoPlay={stopAutoPlay}
+            isLoop={isLoop}
+            slideIndexCount={slideIndexCount}
+            isAutoPlayEnabled={isAutoPlayEnabled}
+            onClick={OnClickHandler("backward")}
+            pointingDirection="left"
+            isLightBox={isLightBox}
+            disableLightBoxBtn={disableLightBoxBtn}
+          />
+          <CarouselBtn
+            slider={slider}
+            startAutoPlay={startAutoPlay}
+            stopAutoPlay={stopAutoPlay}
+            isLoop={isLoop}
+            slideIndexCount={slideIndexCount}
+            isAutoPlayEnabled={isAutoPlayEnabled}
+            onClick={OnClickHandler("forward")}
+            pointingDirection="right"
+            isLightBox={isLightBox}
+            disableLightBoxBtn={disableLightBoxBtn}
+          />
+        </div>
+      )}
       <div className="mx-auto text-center *:inline-block *:rounded-full *:bg-black/70 *:p-1 *:not-last:mr-0.5 max-md:self-end">
         {new Array(slider.current.totalSlideCount)
           .fill(undefined)

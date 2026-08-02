@@ -59,7 +59,7 @@ export function SliderLightBoxPlugin({ ref, slideEl, slideContainerEl }) {
       data-light-box-open={isLightBoxOpen}
       onPointerDown={(e) => e.stopPropagation()}
       onClick={onClickHandler}
-      className={`absolute z-10 cursor-pointer ${isLightBoxOpen ? "top-0 right-0 translate-y-[-120%] sm:translate-x-[120%]" : "top-1 right-1"} rounded-full bg-white/40 p-1.75 shadow-md backdrop-blur-sm transition-colors hover:bg-white active:bg-white disabled:opacity-0`}
+      className={`absolute z-10 cursor-pointer ${isLightBoxOpen ? "top-0 right-0 translate-y-[-120%] sm:translate-x-[120%]" : "top-1 right-1"} rounded-full bg-white/40 p-1.75 shadow-md backdrop-blur-sm hover:bg-white active:bg-white disabled:opacity-0 sm:transition-colors`}
     >
       {isLightBoxOpen ? (
         <SpriteIcon className="size-7 fill-black" iconName="minimizer" />

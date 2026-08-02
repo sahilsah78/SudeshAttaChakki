@@ -60,3 +60,41 @@
     }
   }
 }
+
+#swiperCardEffect .swiper {
+  @apply h-fit w-(--card-width);
+}
+
+#swiperCardEffect .swiper-slide {
+  @apply block overflow-hidden rounded-(--card-radius) transition-all;
+}
+
+#swiperSlidePerView .swiper-slide {
+  @apply w-(--slide-width);
+}
+
+/* #swiperCardEffect .swiper-slide::after {
+  @apply absolute inset-0 top-[-150%] left-[-150%] size-full rotate-45 skew-x-[-25%] mix-blend-screen transition-all duration-3000 content-[""];
+    background: linear-gradient(
+    -45deg,
+    transparent 0%,
+    transparent 30%,
+    rgba(255, 255, 255, 0.242) 40%,
+    rgba(255, 255, 255, 0.486) 50%,
+    rgba(255, 255, 255, 0.354) 60%,
+    transparent 70%,
+    transparent 100%
+  );
+}
+  //!later complete this perhaps as of now ti is taking time and i want to move it forward so i am shifting it for later as perhaps i might nto keep it as well. 
+#swiperCardEffect .swiper-slide:hover::after {
+  top: 150% !important;
+}
+ */
+#swiperCardEffect .swiper-slide-active {
+  @apply shadow-[0_6px_14px_#00000021];
+}
+
+#swiperCardEffect .swiper-slide-shadow {
+  @apply bg-black/2;
+}
