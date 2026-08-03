@@ -3,10 +3,8 @@ import { RippleEffect } from "../RippleEffect";
 import { SpriteIcon } from "../SpriteIcon";
 import { BrandItemCard } from "./utility/BrandItemCard";
 import { BrandSectionTitle } from "./utility/BrandSectionTitle";
-import { EmblaCardSlider } from "../EmblaCardSlider";
 import { SwiperCardEffect } from "../SwiperCardEffect";
 import { useMediaQuery } from "../Hooks/useMediaQuery";
-
 export function BrandVarietySection() {
   const attaProducts = [
     {

@@ -1,12 +1,13 @@
 import { SpriteIcon } from "../../SpriteIcon";
 import React, { useEffect, useRef, useState } from "react";
 import { useMediaQuery } from "../../Hooks/useMediaQuery";
+import { SlidingText } from "../../SlidingText";
 
 export function BrandYourAttaWaySteps() {
   const stepsArray = ["Choose Grains", "Select Ratio", "We Mill & Deliver"];
   const isTablet = useMediaQuery("(max-width: 976px)");
   const [currentStep, setCurrentStep] = useState(1);
-  const autoPlayId = useRef(1);
+  const autoPlayId = useRef(0);
 
   useEffect(() => {
     if (isTablet) {
@@ -39,12 +40,13 @@ export function BrandYourAttaWaySteps() {
 
         {/* //!i want a info suggestino like there is in chatgpt for this button when user hover that text should show up plus the icon should shake. */}
       </button>
-      <div>
-        <h6 className="mb-3 pr-7 text-sm font-semibold md:mb-6">
-          {/* at 800px i want it to slide */}
-          Your Atta Your Way
-        </h6>
-      </div>
+
+      <SlidingText
+        className="mr-7 mb-5 font-semibold md:mb-6"
+        fontSize="14px"
+        text="Your Atta Your Way"
+        query="(max-width: 800px)"
+      />
       {/*! maybe add animation showing steps for this whole part. */}
       <div className="min-[976px]:flex min-[976px]:justify-between">
         {isTablet

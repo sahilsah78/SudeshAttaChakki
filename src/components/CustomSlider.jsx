@@ -248,6 +248,7 @@ export function CustomSlider({
   }
 
   function disableLightBoxBtn(value) {
+    //!lightBoxBtn.current.disabled i got an erro saying i cannot fine wheather it is disable or not not exactly like this but close. do check it later.
     if (
       lightBoxBtn.current.disabled === value ||
       slider.current.isCarouselBtnActive ||
