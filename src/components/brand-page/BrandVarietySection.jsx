@@ -41,11 +41,11 @@ export function BrandVarietySection() {
         />
 
         {isDesktop ? (
-          <EmblaCardSlider className="mx-auto pt-15 pb-14">
+          <div className="mx-auto flex gap-x-6 pt-15 pb-14">
             {attaProducts.map(({ title, price }, i) => (
               <BrandItemCard key={i} title={title} price={price} />
             ))}
-          </EmblaCardSlider>
+          </div>
         ) : (
           <SwiperCardEffect
             className="mx-auto w-49.5 max-w-[335px] pt-20 pb-14 md:pt-15"
