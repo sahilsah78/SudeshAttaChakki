@@ -1,17 +1,15 @@
 import { SpriteIcon } from "../../SpriteIcon";
 
 export function BrandTestimonialTextBox({
-  extraClassNames = "",
-  bgClassName = "bg-maroom",
+  className: extraClassNames = "",
   isQuoteVisible = false,
   userName,
   userOccupation,
   userReview,
-  isTextBlack = false,
 }) {
   return (
     <div
-      className={`relative rounded-xl ${bgClassName} px-5 py-3.75 ${isTextBlack ? "text-black" : "text-white"} ${extraClassNames} `}
+      className={`bg-maroom relative rounded-xl px-5 py-3.75 text-white ${extraClassNames} `}
     >
       {isQuoteVisible && (
         <SpriteIcon

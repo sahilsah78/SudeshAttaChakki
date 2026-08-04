@@ -8,6 +8,38 @@ export function BrandTestimonialSection(params) {
      a centered play button
 a small duration chip (0:48) */
   //  ! ifeel like it needs alot of tweaking for best tweaks, first enable video player then go about tweaking it.
+
+  const reviews = [
+    {
+      className: "col-span-2 bg-[#8E4A21]",
+      isQuoteVisible: true,
+      userName: "Ayesha Kapoor",
+      userOccupation: "Home Baker",
+      userReview:
+        "The flour smells genuinely fresh and makes a noticeable difference in both rotis and baked goods. I like that every batch is ground after I place my order instead of sitting on shelves for weeks. It feels clean, wholesome, and worth choosing over packaged alternatives.",
+    },
+    {
+      userName: "Rohit Sharma",
+      userOccupation: "Working Professional",
+      userReview:
+        "I've ordered several times now, and the quality has stayed consistent. Freshly milled flour tastes better, cooks well, and always arrives exactly as promised.",
+    },
+    {
+      className: "bg-cream! text-black!",
+      userName: "Neha Verma",
+      userOccupation: "Homemaker",
+      userReview:
+        "The texture is soft, the aroma is natural, and the rotis stay fresh much longer. It's now my preferred place for buying flour every month.",
+    },
+    {
+      className: "col-span-2",
+      userName: "Arjun Mehta",
+      userOccupation: "Restaurant Owner",
+      userReview:
+        "Consistency matters in our kitchen, and this flour has been reliable with every order. The freshness is immediately noticeable, the quality never feels compromised, and knowing it's milled on demand gives us much more confidence than buying ordinary packaged flour.",
+    },
+  ];
+
   return (
     <section
       style={{ backgroundImage: `url(${mudPaper})` }}
@@ -18,33 +50,10 @@ a small duration chip (0:48) */
         subTitleText="Because good food speaks through people’s trust."
       />
       <div className="mx-auto mt-14 max-w-140 max-[480px]:*:not-last:mb-3 min-[480px]:grid min-[480px]:grid-cols-2 min-[480px]:gap-3 lg:max-w-240 lg:grid-cols-4">
-        <BrandTestimonialTextBox
-          extraClassNames="col-span-2"
-          bgClassName="bg-[#8E4A21]"
-          isQuoteVisible={true}
-          userName="Ayesha Kapoor"
-          userOccupation="Young Student"
-          userReview="No stock waiting on shelves. Every batch of flour is ground only when you order it. We don’t chase shortcuts with preservatives or pre-packaged stock. What you get isn’t “as fresh as the farm harvest,” but it is “as fresh as a mill can make”."
-        />
-        <BrandTestimonialTextBox
-          userName="Meera Gupta"
-          userOccupation="Homemaker"
-          userReview="No stock waiting on shelves. Every batch of flour is ground only when you order it. We don’t chase shortcuts."
-        />
-        <BrandTestimonialTextBox
-          bgClassName="bg-cream"
-          isTextBlack={true}
-          userName="Rahul Gupta"
-          userOccupation="Homemaker"
-          userReview="No stock waiting on shelves. Every batch of flour is ground only when you order it. We don’t chase shortcuts."
-        />
-        <BrandTestimonialTextBox
-          extraClassNames="col-span-2"
-          userName="Karan Mehta"
-          userOccupation="Yound Professional"
-          userReview="No stock waiting on shelves. Every batch of flour is ground only when you order it. We don’t chase shortcuts with preservatives or pre-packaged stock. What you get isn’t “as fresh as the farm harvest,” but it is “as fresh as a mill can make”."
-        />
-
+        {reviews.map((reviews, i) => (
+          <BrandTestimonialTextBox key={i} {...reviews} />
+        ))}
+        <BrandTestimonialTextBox userName=""/>
         <div className="relative h-[80svh] w-[min(100%,310px)] justify-self-center max-lg:col-span-full max-lg:mt-24 lg:col-start-4 lg:row-span-2 lg:row-start-1 lg:h-auto">
           <OptimizedImg
             imgName="farmerDoingFarming"

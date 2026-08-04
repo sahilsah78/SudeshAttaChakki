@@ -20,6 +20,7 @@ export function CustomSlider({
   //!though not needed but jsut as final touch implement debounce for autoplay later
   //!later do a skeleton effect for the slider.and write a logic to mount it later.
   //! and media query to turn slider vertical and horizontal.
+  //!rethink about wheater the slider image should be draggable or not. 
   // isAxisAutomatic = false, think about wheather you want to add this feature or not.
   //later work on passing desired crousel options, then we will ditch the horizontal and vertical naviagation and shift to micro components
   const axis = setAxis.toUpperCase();
