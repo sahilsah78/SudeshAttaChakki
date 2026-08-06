@@ -3,6 +3,7 @@ import mudPaper from "../../assets/mudPaper.webp";
 import { BrandTestimonialTextBox } from "./utility/BrandTestimonialTextBox";
 import { OptimizedImg } from "../OptimizedImg";
 import { YoutubeIframeWrapper } from "../YoutubeIframeWrapper";
+import { BrandPlayer } from "../BrandPlayer";
 
 export function BrandTestimonialSection(params) {
   /*//! add this to video player
@@ -54,8 +55,9 @@ a small duration chip (0:48) */
         {reviews.map((reviews, i) => (
           <BrandTestimonialTextBox key={i} {...reviews} />
         ))}
-        <div className="rounded-xl h-[80svh] w-[min(100%,310px)] justify-self-center overflow-clip max-lg:col-span-full max-lg:mt-24 lg:col-start-4 lg:row-span-2 lg:row-start-1 lg:h-auto">
+        <div className="h-[80svh] w-[min(100%,310px)] justify-self-center overflow-clip rounded-xl max-lg:col-span-full max-lg:mt-24 lg:col-start-4 lg:row-span-2 lg:row-start-1 lg:h-auto">
           <YoutubeIframeWrapper videoUrl="https://www.youtube-nocookie.com/embed/dRDG7-dnFe0?si=GhTI0zMElqi6NJGC" />
+          {/* <BrandPlayer videoUrl="https://vimeo.com/1209564322" /> */}
         </div>
       </div>
     </section>
