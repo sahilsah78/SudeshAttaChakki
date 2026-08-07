@@ -21,6 +21,7 @@ export function CustomSlider({
   //!later do a skeleton effect for the slider.and write a logic to mount it later.
   //! and media query to turn slider vertical and horizontal.
   //!rethink about wheater the slider image should be draggable or not. 
+  //!make set axis prop in to axis as itis more readable., set implies state as wel that i why
   // isAxisAutomatic = false, think about wheather you want to add this feature or not.
   //later work on passing desired crousel options, then we will ditch the horizontal and vertical naviagation and shift to micro components
   const axis = setAxis.toUpperCase();
@@ -234,7 +235,7 @@ export function CustomSlider({
   }) {
     const { style } = slideTrackEl.current; //!cache it on pointerDown
 
-    //set right duration
+   //set right duration only when it is not there already
     if (isFast && style.transitionDuration !== "0ms") {
       style.transitionDuration = "0ms";
     } else if (!isFast) {
