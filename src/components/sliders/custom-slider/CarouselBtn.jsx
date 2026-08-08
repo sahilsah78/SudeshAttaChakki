@@ -1,4 +1,4 @@
-import { SpriteIcon } from "./SpriteIcon";
+import { SpriteIcon } from "../../SpriteIcon";
 
 export function CarouselBtn({
   slider,

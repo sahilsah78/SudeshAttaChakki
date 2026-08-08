@@ -3,7 +3,7 @@ import mudPaper from "../../assets/mudPaper.webp";
 import { BrandTestimonialTextBox } from "./utility/BrandTestimonialTextBox";
 import { OptimizedImg } from "../OptimizedImg";
 import { YoutubeIframeWrapper } from "../YoutubeIframeWrapper";
-import { WebPlayer } from "../WebPlayer";
+import { WebPlayer } from "../web-player/WebPlayer";
 
 export function BrandTestimonialSection(params) {
   /*//! add this to video player
@@ -57,7 +57,10 @@ a small duration chip (0:48) */
         ))}
         <div className="h-[80svh] w-[min(100%,310px)] justify-self-center overflow-clip rounded-xl max-lg:col-span-full max-lg:mt-24 lg:col-start-4 lg:row-span-2 lg:row-start-1 lg:h-auto">
           {/* <YoutubeIframeWrapper videoUrl="https://www.youtube-nocookie.com/embed/dRDG7-dnFe0?si=GhTI0zMElqi6NJGC" /> */}
-          <WebPlayer variant="brand" />
+          <WebPlayer
+            src="https://res.cloudinary.com/t8yzcvhg/video/upload/v1786174145/Make_it_in_hindi_e8fulu.mp4"
+            variant="brand"
+          />
         </div>
       </div>
     </section>

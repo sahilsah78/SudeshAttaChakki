@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { SpriteIcon } from "./SpriteIcon";
+import { SpriteIcon } from "../../SpriteIcon";
 
 export function ZoomSlider({ slideEl, slideContainerEl }) {
   const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);

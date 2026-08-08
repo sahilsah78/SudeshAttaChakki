@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { OptimizedImg } from "./OptimizedImg";
+import { OptimizedImg } from "../../OptimizedImg";
 import { HorizontalSliderNavigation } from "./HorizontalSliderNavigation";
 import { VerticalSliderNavigation } from "./VerticalSliderNavigation";
 import { SliderLightBoxPlugin } from "./SliderLightBoxPlugin";
@@ -22,6 +22,7 @@ export function CustomSlider({
   //! and media query to turn slider vertical and horizontal.
   //!rethink about wheater the slider image should be draggable or not. 
   //!make set axis prop in to axis as itis more readable., set implies state as wel that i why
+  //!use contextApi and ditch props drilling.
   // isAxisAutomatic = false, think about wheather you want to add this feature or not.
   //later work on passing desired crousel options, then we will ditch the horizontal and vertical naviagation and shift to micro components
   const axis = setAxis.toUpperCase();

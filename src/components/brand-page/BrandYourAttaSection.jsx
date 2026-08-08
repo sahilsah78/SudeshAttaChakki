@@ -1,6 +1,6 @@
 import mudPaper from "../../assets/mudPaper.webp";
 import scooter from "../../assets/scooter.png";
-import { CustomSlider } from "../CustomSlider";
+import { CustomSlider } from "../sliders/custom-slider/CustomSlider";
 import { SpriteIcon } from "../SpriteIcon";
 import { BrandSectionTitle } from "./utility/BrandSectionTitle";
 import { BrandYourAttaStepCard } from "./utility/BrandYourAttaStepCard";

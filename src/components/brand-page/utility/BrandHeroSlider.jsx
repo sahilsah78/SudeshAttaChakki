@@ -1,4 +1,4 @@
-import { CustomSlider } from "../../CustomSlider";
+import { CustomSlider } from "../../sliders/custom-slider/CustomSlider";
 import { OptimizedImg } from "../../OptimizedImg";
 
 export function BrandHeroSlider() {

@@ -1,4 +1,4 @@
-import { CustomSlider } from "../../CustomSlider";
+import { CustomSlider } from "../../sliders/custom-slider/CustomSlider";
 import { useMediaQuery } from "../../Hooks/useMediaQuery";
 
 export function BrandWhyChooseTextBox({ isAriaHidden, title, info }) {
