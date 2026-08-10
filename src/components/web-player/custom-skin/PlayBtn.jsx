@@ -1,21 +1,14 @@
-import { useState } from "react";
 import { SpriteIcon } from "../../SpriteIcon";
 import { usePlayer } from "@videojs/react";
 
 export function PlayBtn() {
   //!i think i shoudl create a component that can updates ui on click, rather then creating them seperately
   //!youtube does is maybe it will look good try to animate the transition from pause to play. and add ripple effect of all.
-  const [isPaused, setIsPaused] = useState(true);
-  const player = usePlayer();
-
-  function onClickHandler(e) {
-    const nextIsPaused = !isPaused;
-    nextIsPaused ? player.pause() : player.play();
-    setIsPaused(nextIsPaused);
-  }
+  const togglePaused = usePlayer((state) => state.togglePaused);
+  const isPaused = usePlayer((state) => state.paused);
 
   return (
-    <button onClick={onClickHandler}>
+    <button onClick={togglePaused}>
       {isPaused ? (
         <SpriteIcon className="size-6.5 fill-white" iconName="play" />
       ) : (
