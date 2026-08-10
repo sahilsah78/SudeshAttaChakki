@@ -10,7 +10,7 @@ export function BrandTestimonialSection(params) {
      a centered play button
 a small duration chip (0:48) */
   //  ! ifeel like it needs alot of tweaking for best tweaks, first enable video player then go about tweaking it.
-
+//i need to make it grid-flex from grid only to ensure,the video player size does not quirks else the visual experience can be not so good.  
   const reviews = [
     {
       className: "col-span-2 bg-[#8E4A21]",

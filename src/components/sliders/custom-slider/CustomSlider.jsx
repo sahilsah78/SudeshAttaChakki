@@ -20,9 +20,10 @@ export function CustomSlider({
   //!though not needed but jsut as final touch implement debounce for autoplay later
   //!later do a skeleton effect for the slider.and write a logic to mount it later.
   //! and media query to turn slider vertical and horizontal.
-  //!rethink about wheater the slider image should be draggable or not. 
+  //!rethink about wheater the slider image should be draggable or not.
   //!make set axis prop in to axis as itis more readable., set implies state as wel that i why
   //!use contextApi and ditch props drilling.
+  //!bring back, all the calculation to js and only go fo calc when it is css specific, a js is faster and css calculation can be much more readable if we let calc deal with it then use like 100%-22px
   // isAxisAutomatic = false, think about wheather you want to add this feature or not.
   //later work on passing desired crousel options, then we will ditch the horizontal and vertical naviagation and shift to micro components
   const axis = setAxis.toUpperCase();
@@ -236,7 +237,7 @@ export function CustomSlider({
   }) {
     const { style } = slideTrackEl.current; //!cache it on pointerDown
 
-   //set right duration only when it is not there already
+    //set right duration only when it is not there already
     if (isFast && style.transitionDuration !== "0ms") {
       style.transitionDuration = "0ms";
     } else if (!isFast) {

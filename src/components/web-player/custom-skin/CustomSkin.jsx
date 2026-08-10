@@ -1,18 +1,15 @@
 import { ProgressBar } from "./ProgressBar";
 import { SpriteIcon } from "../../SpriteIcon";
 import { Children } from "react";
+import { PlayBtn } from "./PlayBtn";
 
 export function CustomSkin({ variant, children }) {
+  //!the video can trimmed ideally it should not be trimmed get it checked.
   return (
-    <div className="relative flex size-full bg-black items-center justify-center">
+    <div className="relative flex size-full items-center justify-center bg-black">
       <div className="font-poppins absolute inset-0 z-10 flex size-full flex-col justify-between px-4 pt-3 font-medium text-white">
         <div className="flex justify-between *:cursor-pointer *:rounded-full *:p-3.5">
-          <button>
-            <SpriteIcon className="size-6.5 fill-white" iconName="play" />
-          </button>
-          <button>
-            <SpriteIcon className="size-6.5 fill-white" iconName="share" />
-          </button>
+          <PlayBtn />
         </div>
         <div>
           <button className="mb-2 ml-auto block w-fit cursor-pointer rounded-full bg-white px-1.75 py-1.5 active:bg-white/90">
