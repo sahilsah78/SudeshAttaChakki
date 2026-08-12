@@ -2,9 +2,13 @@ import { ProgressBar } from "./ProgressBar";
 import { SpriteIcon } from "../../SpriteIcon";
 import { Children } from "react";
 import { PlayBtn } from "./PlayBtn";
+import { useContainerAttach } from "@videojs/react";
 
 export function CustomSkin({ variant, children }) {
   //!the video can trimmed ideally it should not be trimmed get it checked.
+  const setContainer = useContainerAttach();
+
+  // !style the video js container with class later
   return (
     <div className="relative flex size-full items-center justify-center bg-black">
       <div className="font-poppins absolute inset-0 z-10 flex size-full flex-col justify-between px-4 pt-3 font-medium text-white">

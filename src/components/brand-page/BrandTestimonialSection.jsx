@@ -2,7 +2,7 @@ import { BrandSectionTitle } from "./utility/BrandSectionTitle";
 import mudPaper from "../../assets/mudPaper.webp";
 import { BrandTestimonialTextBox } from "./utility/BrandTestimonialTextBox";
 import { OptimizedImg } from "../OptimizedImg";
-import { YoutubeIframeWrapper } from "../YoutubeIframeWrapper";
+import video from "../../assets/video/Sudhesh atta_chakki_introductory_video.mp4";
 import { WebPlayer } from "../web-player/WebPlayer";
 
 export function BrandTestimonialSection(params) {
@@ -10,7 +10,7 @@ export function BrandTestimonialSection(params) {
      a centered play button
 a small duration chip (0:48) */
   //  ! ifeel like it needs alot of tweaking for best tweaks, first enable video player then go about tweaking it.
-//i need to make it grid-flex from grid only to ensure,the video player size does not quirks else the visual experience can be not so good.  
+  //i need to make it grid-flex from grid only to ensure,the video player size does not quirks else the visual experience can be not so good.
   const reviews = [
     {
       className: "col-span-2 bg-[#8E4A21]",
@@ -55,12 +55,13 @@ a small duration chip (0:48) */
         {reviews.map((reviews, i) => (
           <BrandTestimonialTextBox key={i} {...reviews} />
         ))}
-        <div className="h-[80svh] w-[min(100%,310px)] justify-self-center overflow-clip rounded-xl max-lg:col-span-full max-lg:mt-24 lg:col-start-4 lg:row-span-2 lg:row-start-1 lg:h-auto">
-          {/* <YoutubeIframeWrapper videoUrl="https://www.youtube-nocookie.com/embed/dRDG7-dnFe0?si=GhTI0zMElqi6NJGC" /> */}
-          <WebPlayer
+        <div className="h-[80svh] w-[min(100%,310px)] justify-self-center overflow-clip rounded-xl bg-black max-lg:col-span-full max-lg:mt-24 lg:col-start-4 lg:row-span-2 lg:row-start-1 lg:h-auto [&>div]:size-full">
+          {/* <WebPlayer
             src="https://res.cloudinary.com/t8yzcvhg/video/upload/v1786174145/Make_it_in_hindi_e8fulu.mp4"
             variant="brand"
-          />
+          /> */}
+          <WebPlayer src={video} variant="brand" />
+          {/* <video className="size-full" controls src={video}></video> */}
         </div>
       </div>
     </section>
