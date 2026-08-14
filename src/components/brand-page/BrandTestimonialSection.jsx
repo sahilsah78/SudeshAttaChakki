@@ -56,12 +56,7 @@ a small duration chip (0:48) */
           <BrandTestimonialTextBox key={i} {...reviews} />
         ))}
         <div className="h-[80svh] w-[min(100%,310px)] justify-self-center overflow-clip rounded-xl bg-black max-lg:col-span-full max-lg:mt-24 lg:col-start-4 lg:row-span-2 lg:row-start-1 lg:h-auto [&>div]:size-full">
-          {/* <WebPlayer
-            src="https://res.cloudinary.com/t8yzcvhg/video/upload/v1786174145/Make_it_in_hindi_e8fulu.mp4"
-            variant="brand"
-          /> */}
           <WebPlayer src={video} variant="brand" />
-          {/* <video className="size-full" controls src={video}></video> */}
         </div>
       </div>
     </section>
