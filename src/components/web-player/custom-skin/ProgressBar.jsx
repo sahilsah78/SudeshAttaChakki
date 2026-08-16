@@ -1,7 +1,12 @@
-import { usePlayer } from "@videojs/react";
+import { useMedia, usePlayer } from "@videojs/react";
 import { useEffect, useRef } from "react";
+import { useThrottle } from "../../Hooks/useThrottle";
 // !mainBarBgClassName,progressBarClassname, ThumbClassName, make ti configuration later.
 //! i might watn the pointer capturing to get release as soon as the poitner is out of video player.
+//! there is a problem the thumb is going beyound the end of track,
+//! i might want to, do nto let the thumb get past the tracks,
+//axis handling
+/* progress bar should be in perfect sync with the actual video current duration */
 
 export function ProgressBar({ axis: setAxis }) {
   //--axis handling
@@ -19,13 +24,12 @@ export function ProgressBar({ axis: setAxis }) {
   const duration = usePlayer((state) => state.duration);
   const paused = usePlayer((state) => state.paused);
   const { play, pause, seek, currentTime } = usePlayer();
-  // --
-
-  /* bug founded: during extremely agressive interaction with seek bar, and very fast pause
-play request, i sent true, false, true, and react even re-render after play becuause it leave the mid false
-in between and see then next update true, and then compares with the previous state value
-and it sees no difference and avoids to re-render aka my seek bar get stucked at a point. useEffect never runs. this is what i need to fix. 
-*/
+  const media = useMedia();
+  const throttleSeek = useThrottle((time) => {
+    if (thumb.current.focused) return; //skip seek if interaction is active
+    // --
+    seek(time).finally(play);
+  }, 300);
 
   useEffect(() => {
     if (duration === 0 || thumb.current.focused) return;
@@ -43,7 +47,6 @@ and it sees no difference and avoids to re-render aka my seek bar get stucked at
   }
 
   function handlePointerUp(e) {
-    if (!thumb.current.focused) return;
     thumb.current.focused = false;
     e.currentTarget.releasePointerCapture(e.pointerId);
     // --
@@ -52,7 +55,7 @@ and it sees no difference and avoids to re-render aka my seek bar get stucked at
     const ProgressPercentage = (currentPosition / trackLength) * 100; //*proportion can only work
     //use progressPercentage to find current duration from duration
     const toSeek = Math.round(duration * (ProgressPercentage / 100));
-    seek(toSeek).finally(play);
+    throttleSeek(toSeek);
   }
 
   function moveThumb(value) {
@@ -77,11 +80,12 @@ and it sees no difference and avoids to re-render aka my seek bar get stucked at
   }
 
   function onPointerDownHandler(e) {
-    pause();
+    thumb.current.focused = true; //set thumb details
+    if (!paused) pause();
+    //--
     //define the right track length
     const { clientWidth, clientHeight } = e.currentTarget;
     thumb.current.trackLength = isAxisX ? clientWidth : clientHeight;
-    thumb.current.focused = true; //set thumb details
 
     moveThumb(e.nativeEvent[`offset${axis}`]); //move thumb at current position
     // --
