@@ -28,7 +28,11 @@ export function ProgressBar({ axis: setAxis }) {
   const throttleSeek = useThrottle((time) => {
     if (thumb.current.focused) return; //skip seek if interaction is active
     // --
-    seek(time).finally(play);
+    seek(time).finally(() => {
+      if (!thumb.current.focused) play(); 
+      //seek is called but interaction started again, so do not play.
+      //as it will disturb the expected re-render sequence
+    });
   }, 300);
 
   useEffect(() => {
