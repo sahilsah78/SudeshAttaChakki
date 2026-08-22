@@ -2,6 +2,7 @@ import { useMedia, usePlayer } from "@videojs/react";
 import { useEffect, useRef } from "react";
 import { useThrottle } from "../../Hooks/useThrottle";
 import { SeekPreview } from "./SeekPreview";
+import { useConditionalCall } from "../../Hooks/useConditionalCall";
 
 // !mainBarBgClassName,progressBarClassname, ThumbClassName, make ti configuration later.
 //! i might watn the pointer capturing to get release as soon as the poitner is out of video player.
@@ -41,6 +42,11 @@ export function ProgressBar({ axis: setAxis }) {
       //as it will disturb the expected re-render sequence
     });
   }, 300);
+  const throttleTimeStamp = useConditionalCall((time) => {
+    const { dateTime, formatTime } = getTimeStamp(time);
+    seekTimeEl.current.textContent = formatTime;
+    seekTimeEl.current.dateTime = dateTime;
+  }).condition((curr, prev) => Math.abs(Math.floor(prev) - curr) >= 1);
 
   useEffect(() => {
     if (duration === 0 || thumb.current.focused) return;
@@ -110,12 +116,7 @@ export function ProgressBar({ axis: setAxis }) {
     thumb.current.progressPercent = seekFinal;
 
     //handle time stamp
-    const { dateTime, formatTime } = getTimeStamp(
-      thumb.current.seekDuration,
-    );
-    //!create a throttle where callback only runs when value changes else no.
-    seekTimeEl.current.textContent = formatTime;
-    seekTimeEl.current.dateTime = dateTime;
+    throttleTimeStamp(thumb.current.seekDuration);
   }
 
   function onPointerMoveHandler(e) {
@@ -143,10 +144,7 @@ export function ProgressBar({ axis: setAxis }) {
       className={`cursor-pointer ${isAxisX ? "touch-pan-y" : "touch-pan-x"} relative py-3 select-none *:pointer-events-none active:cursor-grabbing hover:[&>div>button]:opacity-100`}
       // active:[&>div]:h-1.75 try it later
     >
-      <SeekPreview
-        seekPreviewEl={seekPreviewEl}
-        seekTimeEl={seekTimeEl}
-      />
+      <SeekPreview seekPreviewEl={seekPreviewEl} seekTimeEl={seekTimeEl} />
       {/* <input className="w-full rounded-none bg-amber-400" type="range" name="" id="" /> see if the progress bar can be built on top of it, it is more semantic*/}
       <div className="relative flex h-1 w-full items-center bg-gray-400">
         <span

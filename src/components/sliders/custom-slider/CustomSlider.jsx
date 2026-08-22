@@ -26,6 +26,8 @@ export function CustomSlider({
   //!bring back, all the calculation to js and only go fo calc when it is css specific, a js is faster and css calculation can be much more readable if we let calc deal with it then use like 100%-22px
   // isAxisAutomatic = false, think about wheather you want to add this feature or not.
   //later work on passing desired crousel options, then we will ditch the horizontal and vertical naviagation and shift to micro components
+  //!maybe we can do better with no duration for reset instead set transition to none and then reset.
+
   const axis = setAxis.toUpperCase();
   const isAxisX = axis === "X" ? true : false;
 
@@ -345,6 +347,7 @@ export function CustomSlider({
               if (isLightBox) disableLightBoxBtn(false);
             }}
             style={{
+              transition: "transform",
               transform: isLoop ? `translate${axis}(-100%)` : undefined,
             }}
             className={`ease-smooth flex size-full *:size-full *:shrink-0 *:object-cover *:object-center ${
