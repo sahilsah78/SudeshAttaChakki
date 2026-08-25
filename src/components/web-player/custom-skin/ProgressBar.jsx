@@ -8,6 +8,7 @@ import { useConditionalCall } from "../../Hooks/useConditionalCall";
 //! i might watn the pointer capturing to get release as soon as the poitner is out of video player.
 //! there is a problem the thumb is going beyound the end of track,
 //! i might want to, do nto let the thumb get past the tracks,
+//! ensure on active seek the video bg is blured, ok. 
 //axis handling
 // const { style } = thumbEl.current; //!cache it on pointerDown
 /* progress bar should be in perfect sync with the actual video current duration */
@@ -90,10 +91,6 @@ export function ProgressBar({ axis: setAxis }) {
 
     // Math.min(upper, Math.max(lower, value));
   }
-  function isNumWithinBounds(lower, upper, value) {
-    //it deals with number data type only
-    return value >= lower && value <= upper;
-  }
 
   function updateSeekUI(e) {
     //*using perctage to set value */
@@ -101,9 +98,10 @@ export function ProgressBar({ axis: setAxis }) {
     //finding percentage
     const currentPosition = e.nativeEvent[`offset${axis}`];
     const percent = (currentPosition / thumb.current.trackLength) * 100;
-    if (!isNumWithinBounds(0, 100, percent)) return; //save processing for a hotpath
+    const currentPercent = parseInt(progressBarEl.current.style.width)
+    if (currentPercent === 100 && currentPercent === 0) return
 
-    const seekFinal = percent;
+    const seekFinal = clampNum(0, 100, percent);
     applySeekStyles(`${seekFinal}%`);
 
     // clamp percentage between 35-65
@@ -142,7 +140,7 @@ export function ProgressBar({ axis: setAxis }) {
       onPointerUp={handlePointerUp}
       style={{ "--move-duration": `${duration - currentTime}s` }}
       className={`cursor-pointer ${isAxisX ? "touch-pan-y" : "touch-pan-x"} relative py-3 select-none *:pointer-events-none active:cursor-grabbing hover:[&>div>button]:opacity-100`}
-      // active:[&>div]:h-1.75 try it later
+    // active:[&>div]:h-1.75 try it later
     >
       <SeekPreview seekPreviewEl={seekPreviewEl} seekTimeEl={seekTimeEl} />
       {/* <input className="w-full rounded-none bg-amber-400" type="range" name="" id="" /> see if the progress bar can be built on top of it, it is more semantic*/}
