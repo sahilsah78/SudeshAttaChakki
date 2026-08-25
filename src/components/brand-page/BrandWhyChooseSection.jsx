@@ -2,7 +2,7 @@ import { useState } from "react";
 import mudPaper from "../../assets/mudPaper.webp";
 import { BrandSectionTitle } from "./utility/BrandSectionTitle";
 import { BrandWhyChooseTextBox } from "./utility/BrandWhyChooseTextBox";
-import { SpriteIcon } from "../SpriteIcon";
+import { IconBtn } from "../IconBtn";
 
 export function BrandWhyChooseSection(params) {
   const [isReadMore, setIsReadMore] = useState(false);
@@ -103,17 +103,11 @@ export function BrandWhyChooseSection(params) {
         />
 
         <div className="mt-6">
-          <button
-            onClick={() => setIsReadMore(!isReadMore)}
-            className="font-poppins mx-auto flex items-center rounded-md bg-black/12 px-3 py-2 text-sm active:bg-black/20"
-          >
-            {isReadMore ? "Read Less" : "Read More"}
-            <SpriteIcon
-              iconName="double-downward-arrow"
-              className={`ml-2 size-3.5 ${isReadMore ? "rotate-180" : ""}`}
-              // i took off the animation from arrow
-            />
-          </button>
+
+          <IconBtn onClick={() => setIsReadMore(!isReadMore)} className="font-poppins mx-auto flex items-center rounded-md bg-black/12 px-3 py-2 text-sm active:bg-black/20"
+            iconName="double-downward-arrow"
+            iconClassName={`ml-2 size-3.5 ${isReadMore ? "rotate-180" : ""}`}
+          > {isReadMore ? "Read Less" : "Read More"}</IconBtn>
         </div>
       </div>
     </section>
