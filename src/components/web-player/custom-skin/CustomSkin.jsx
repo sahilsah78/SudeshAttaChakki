@@ -3,6 +3,7 @@ import { SpriteIcon } from "../../SpriteIcon";
 import { Children } from "react";
 import { PlayBtn } from "./PlayBtn";
 import { useContainerAttach } from "@videojs/react";
+import { MoreOptions } from "./MoreOptions";
 
 export function CustomSkin({ variant, children }) {
   //!the video can trimmed ideally it should not be trimmed get it checked.
@@ -16,9 +17,7 @@ export function CustomSkin({ variant, children }) {
           <PlayBtn />
         </div>
         <div>
-          <button className="mb-2 ml-auto block w-fit cursor-pointer rounded-full bg-white px-1.75 py-1.5 active:bg-white/90">
-            <SpriteIcon className="size-7 fill-black" iconName="more-options" />
-          </button>
+          <MoreOptions />
           <div>
             {variant === "creator" ? (
               <div className="mb-2 flex items-center gap-3 text-xs">
